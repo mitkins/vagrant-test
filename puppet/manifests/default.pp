@@ -10,28 +10,13 @@ apt::ppa { 'ppa:rip84/php5': }
 #   title != 'software-properties-common'
 # |>
 
-class { 'apache':
-  mpm_module => 'prefork',
-  default_vhost => false
-}
-class { 'apache::mod::ssl': }
-class { 'apache::mod::php': }
+class { 'apache': }
 
-apache::vhost { '*':
+apache::vhost { 'default':
     docroot             => '/vagrant',
-    # server_name         => false,
-    # priority            => '',
-    # template            => 'apache/virtualhost/vhost.conf.erb',
+    server_name         => false,
+    priority            => '',
+    template            => 'apache/virtualhost/vhost.conf.erb',
 }
 
-# apache::vhost { 'bob':
-#     port                => 443,
-#     port                => 80,
-#     docroot             => '/vagrant',
-#     # server_name         => false,
-#     # priority            => '',
-#     # template            => 'apache/virtualhost/vhost.conf.erb',
-#     ssl                 => true,
-# }
-
-# class { 'php': }
+class { 'php': }
