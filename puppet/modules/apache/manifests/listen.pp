@@ -29,7 +29,7 @@ define apache::listen (
 
   file { "Apache_Listen_${name}.conf":
     ensure  => $ensure,
-    path    => "${apache::config_dir}/conf.d/0000_listen_${name}.conf",
+    path    => "${apache::config_dir}/conf-available/0000_listen_${name}.conf",
     mode    => $apache::config_file_mode,
     owner   => $apache::config_file_owner,
     group   => $apache::config_file_group,
@@ -37,6 +37,9 @@ define apache::listen (
     notify  => $manage_service_autorestart,
     content => template($template),
     audit   => $apache::manage_audit,
+  }
+  -> exec{ "/usr/sbin/a2enconf 0000_listen_${name}.conf":
+    # notify  => Service["apache"]
   }
 
 }
